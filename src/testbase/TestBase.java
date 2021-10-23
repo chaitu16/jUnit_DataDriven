@@ -33,20 +33,24 @@ import com.aventstack.extentreports.ExtentReports;
 import com.aventstack.extentreports.ExtentTest;
 import com.aventstack.extentreports.Status;
 
+import Util.TestUtil;
+import datatable.Xls_Reader;
+
 public class TestBase {
 	
 	public static WebDriver driver;
-	ExtentReports reports;
-	ExtentTest test;
+	public ExtentReports reports;
+	public ExtentTest test;
 	public static Properties CONFIG = null;
-	public static Properties LOCATORS = null;
-	
+	public static Properties LOCATORS = null;	
 	public static boolean isLoggedIn =false;
+	public static Xls_Reader datatable = null;
 	
 	
-	public WebDriver launchBrowser(String browser) {
+	public WebDriver launchBrowser(String browser) {	
 		
-		if(driver == null) {
+	
+	if(driver == null) {
 			
 			if(browser.equalsIgnoreCase("Chrome")) {
 				Map prefs = new HashMap();
@@ -102,7 +106,8 @@ public class TestBase {
 				options.merge(cap);		
 				driver = new InternetExplorerDriver();
 			}
-		}
+	}
+	
 		
 		FileInputStream file = null;
 		CONFIG =new Properties();
@@ -136,7 +141,10 @@ public class TestBase {
 			e.printStackTrace();
 		}
 		
+		
+		
 		driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(30));
+		
 		return driver;
 		
 	}
@@ -151,10 +159,23 @@ public class TestBase {
 		test = reports.createTest("Test executed : "+ name.getMethodName());			
 	}
 	
+	
 	@After
 	public void quit() {
+		try {
+			TestUtil.takeSnapShot(driver, ExtentManager.screenShotsFolder+"\\"+ name.getMethodName()+".png");
+			
+			
+		} catch (Exception e) {
+			System.out.println("Couldn't get screenshot");
+			e.printStackTrace();
+		}
 		reports.flush();
+		
 	}
+	
+
+	
 	
 	public void log(String msg) {
 		System.out.println(msg);
@@ -175,6 +196,8 @@ public class TestBase {
 		test.log(Status.SKIP, msg);
 		System.out.println("Skipped Test : " +name.getMethodName());
 	}
+
+	
 	
 	public static void waitForPageToLoad() throws InterruptedException{
 		JavascriptExecutor js = (JavascriptExecutor)driver;

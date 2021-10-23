@@ -10,7 +10,8 @@ import com.aventstack.extentreports.reporter.configuration.Theme;
 public class ExtentManager {
 	
 	static ExtentReports reports;
-	
+	public static String screenShotsFolder = null;
+	public static String reportsFolder = null;
 	public static ExtentReports getReports() {
 		
 		if (reports == null) {
@@ -20,8 +21,8 @@ public class ExtentManager {
 			
 			String path = System.getProperty("user.dir")+"/reports";
 			
-			String screenShotsFolder = System.getProperty("user.dir")+"/reports/"+d.toString().replaceAll(":", "-")+"/ScreenShots";
-			String reportsFolder =  System.getProperty("user.dir")+"/reports/"+d.toString().replaceAll(":", "-");
+			 screenShotsFolder = System.getProperty("user.dir")+"/reports/"+d.toString().replaceAll(":", "-")+"/ScreenShots";
+			 reportsFolder =  System.getProperty("user.dir")+"/reports/"+d.toString().replaceAll(":", "-");
 
 			File f = new File(screenShotsFolder);
 			f.mkdirs();

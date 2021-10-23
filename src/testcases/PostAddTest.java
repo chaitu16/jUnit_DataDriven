@@ -4,6 +4,8 @@ import java.io.IOException;
 import java.time.Duration;
 import java.util.List;
 
+import org.junit.Assume;
+import org.junit.Before;
 import org.junit.Test;
 import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
@@ -19,14 +21,25 @@ import testbase.TestBase;
 
 public class PostAddTest extends TestBase {
 	
+/*	@Before
+	public void beforeTest() {
+		launchBrowser("firefox");
+		if(TestUtil.isSkip("PostAddTest")) {
+			Assume.assumeTrue(false);
+		}
+	}
+	
+*/	
 	
 	@Test 
 
 	public void postAddTest() throws InterruptedException, IOException {
 		
-		launchBrowser("chrome");		
-		driver.get(CONFIG.getProperty("url"));
-		waitForPageToLoad();	
+		launchBrowser("firefox");
+		
+		driver.get(CONFIG.getProperty("url"));		
+//		driver.get(CONFIG.getProperty("url"));
+//		waitForPageToLoad();	
 		if(!isLoggedIn) {
 		TestUtil.doLogin(CONFIG.getProperty("user_email"), CONFIG.getProperty("user_password"));	
 		}
